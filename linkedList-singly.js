@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 //Node - private class
 class _Node {
@@ -53,7 +53,15 @@ class LinkedList {
     }
   }
 
-  //insert after an item
+  // insert after an item
+  // we can assume that the given key exists in the list
+  insertAfter(item, key) {
+    const nodeBefore = this.find(key);
+    if (nodeBefore) {
+      const node = new _Node(item, nodeBefore.next);
+      nodeBefore.next = node;
+    }
+  }
 
   //insert last item
   insertLast(item) {
@@ -69,7 +77,28 @@ class LinkedList {
     return this;
   }
 
-  //insert an item at a specific position
+  // insert an item at a specific position
+  // 100, 101, 102, 103, 104 => 100, 101, 102, 103, 104, 'hi'
+  // find position - 1
+  // insert node after position - 1
+  insertAt(position, item) {
+    // SPECIAL CASE: inserting at head
+    if (position === 1) {
+      const node = new _Node(item, this.head);
+      this.head = node;
+      return this;
+    }
+    let cursorPosition = 1;
+    let cursor = this.head;
+    // Stop at tail even if the given position is greater than the length of the list
+    while (cursor.next && cursorPosition < position - 1) {
+      cursor = cursor.next;
+      cursorPosition++;
+    }
+    const node = new _Node(item, cursor.next);
+    cursor.next = node;
+    return this;
+  }
 
   //find item
   find(item) {
@@ -105,16 +134,17 @@ class LinkedList {
 function main() {
   let SLL = new LinkedList();
 
-  SLL.insertFirst('Apollo')
-    .insertFirst('Boomer')
-    .insertFirst('Helo')
-    .insertFirst('Husker')
-    .insertFirst('Starbuck')
-    .insertFirst('Tauhida');
+  SLL.insertFirst("Apollo")
+    .insertFirst("Boomer")
+    .insertFirst("Helo")
+    .insertFirst("Husker")
+    .insertFirst("Starbuck")
+    .insertFirst("Tauhida");
 
-  SLL.remove('squirrel');
-
-  SLL.insertBefore('Chelsea', 'Starbuck');
+  SLL.remove("squirrel");
+  SLL.insertBefore("Chelsea", "Starbuck");
+  SLL.insertAfter("ni hao", "Chelsea");
+  SLL.insertAt(1000, "more chinese");
 
   console.log(listToArray(SLL));
 }
