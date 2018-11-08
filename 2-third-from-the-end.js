@@ -1,6 +1,5 @@
 'use strict';
 const LinkedList = require('./linkedList-singly');
-const { display } = require('./linkedList-helpers');
 
 //input: 1 -> 2 -> 3 -> 4 -> 5
 //                  x
