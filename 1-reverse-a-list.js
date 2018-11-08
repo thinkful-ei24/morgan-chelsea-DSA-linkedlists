@@ -30,6 +30,23 @@ function reverse(list) {
   list.head = prev;
 }
 
+// 1 -> 2 -> 3 -> 4 -> 5
+// 1 <- 2 <- 3 <- 4 <- 5
+function reverseRecursiveHelper(current, prev) {
+  if (current) {
+    const temp = current.next;
+    current.next = prev;
+    prev = current;
+    current = temp;
+    return reverseRecursiveHelper(current, prev);
+  } else return prev;
+}
+
+function reverseRecursive(list) {
+  const tail = reverseRecursiveHelper(list.head, null);
+  list.head = tail;
+}
+
 (function main() {
   const list = new LinkedList();
   list
@@ -39,6 +56,6 @@ function reverse(list) {
     .insertLast(4)
     .insertLast(5);
 
-  reverse(list);
+  reverseRecursive(list);
   display(list); // expect [5, 4, 3, 2, 1]
 })();
